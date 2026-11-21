@@ -34,7 +34,7 @@
   button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
   button.danger{background:var(--danger);border-color:var(--danger);color:#fff}
   button:disabled{opacity:.5;cursor:default}
-  input[type=text],select{font:inherit;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:100%}
+  input[type=text],select{font:inherit;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:100%;min-width:0}
   .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
   .quick{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px}
@@ -44,22 +44,43 @@
   .senders td.n{text-align:right;font-weight:600;white-space:nowrap}
   .senders .addr{font-size:12px;color:var(--muted);word-break:break-all}
   .bar{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:12px 0 0;margin-top:8px}
-  #toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:12px 16px;border-radius:12px;display:none;gap:12px;align-items:center;max-width:calc(100% - 32px);z-index:10}
-  #toast button{background:transparent;color:var(--bg);border-color:var(--bg)}
+  #toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:16px 18px;border-radius:16px;display:none;gap:12px;align-items:center;max-width:min(560px, calc(100% - 24px));width:calc(100% - 24px);z-index:10;box-shadow:0 8px 28px rgba(0,0,0,.28);font-size:16px;line-height:1.4}
+  #toast button{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:700;min-height:44px;flex:none}
+  #toast .toast-copy{flex:1;min-width:0}
+  #toast .toast-sub{display:block;margin-top:4px;font-size:13px;opacity:.85}
   .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;padding:16px;z-index:20}
   .modal{background:var(--card);border-radius:14px;padding:18px;max-width:440px;width:100%}
-  ol li{margin-bottom:8px}
+  .warn{background:#fef3c7;color:#92400e;border-radius:10px;padding:10px 12px;margin:10px 0 0;font-size:13px}
+  @media (prefers-color-scheme: dark){ .warn{background:#3f2e12;color:#fde68a} }
   code{background:var(--chip);padding:1px 6px;border-radius:6px;word-break:break-all}
   .progress{height:6px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:8px}
   .progress div{height:100%;width:0;background:var(--accent);transition:width .2s}
   label.chk{display:flex;gap:8px;align-items:center}
   .hidden{display:none !important}
-  /* phone */
-  button{min-height:44px}
+  button, .chip-btn, .copy-btn{min-height:44px}
   input[type=checkbox]{width:22px;height:22px;flex:none}
   input[type=text],select{min-height:44px;font-size:16px}
   .senders tr{cursor:pointer}
   .senders td{padding:12px 6px}
+
+  /* wizard */
+  .wiz-progress{font-size:13px;font-weight:600;color:var(--muted);margin:0 0 12px}
+  .wiz-link{display:block;text-align:center;text-decoration:none;margin:14px 0}
+  .uri-box{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px;margin:12px 0;word-break:break-all;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px}
+  .copy-btn{width:100%;margin-top:8px;font-weight:700}
+  .wiz-nav{display:flex;gap:10px;align-items:center;margin-top:18px}
+  .wiz-nav button{flex:1}
+  .key-box{margin-top:16px;padding-top:8px}
+  .key-box .row{align-items:stretch}
+  .key-box input{flex:1}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+  .chip-btn{border-radius:999px;padding:8px 12px;background:var(--chip);border-color:transparent;font-size:14px}
+  .chip-btn:hover{border-color:var(--accent)}
+  .more-wrap{margin-top:12px}
+  .more-btn{width:100%}
+  .search-row input{flex:1;min-width:0}
+  .search-actions{flex:none}
+
   @media (max-width:600px){
     .wrap{padding:12px 16px}
     .grid{grid-template-columns:1fr 1fr;gap:10px}
@@ -73,7 +94,15 @@
     .modal-bg{align-items:flex-end;padding:0}
     .modal{border-radius:16px 16px 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom))}
     .modal .row button{flex:1}
-    #toast{bottom:calc(16px + env(safe-area-inset-bottom))}
+    #toast{bottom:calc(16px + env(safe-area-inset-bottom));left:12px;right:12px;transform:none;width:auto;max-width:none}
+    .key-box .row{flex-direction:column}
+    .key-box button{width:100%}
+    .key-sticky{position:sticky;bottom:0;background:var(--card);padding:12px 0 calc(12px + env(safe-area-inset-bottom));margin:12px -16px 0;padding-left:16px;padding-right:16px;border-top:1px solid var(--line)}
+    .copy-btn{width:100%}
+    .search-row{flex-direction:column;align-items:stretch}
+    .search-actions{width:100%}
+    .search-actions button{flex:1}
+    #senderFilter{width:100%;min-width:0 !important}
   }
 </style>
 </head>
@@ -83,36 +112,43 @@
     <h1>🧹 Gmail Cleaner</h1>
     <div class="row">
       <span id="who" class="muted small"></span>
-            <button id="signout" class="hidden">Sign out</button>
+      <button id="signout" class="hidden">Sign out</button>
     </div>
   </header>
 
-  <!-- SETUP -->
+  <!-- SETUP WIZARD -->
   <section id="setup" class="card hidden">
-    <h2>One-time setup (about 10 minutes)</h2>
-    <p class="muted">Google needs a "key" that says this page is allowed to ask for your Gmail. You only do this once.</p>
-    <ol>
-      <li>Go to <a href="https://console.cloud.google.com/projectcreate" target="_blank" rel="noopener">console.cloud.google.com/projectcreate</a>, name it <b>Gmail Cleaner</b>, click <b>Create</b>.</li>
-      <li>Open <a href="https://console.cloud.google.com/apis/library/gmail.googleapis.com" target="_blank" rel="noopener">the Gmail API page</a> (make sure your new project is picked at the top) and click <b>Enable</b>.</li>
-      <li>Open <a href="https://console.cloud.google.com/auth/overview" target="_blank" rel="noopener">Google Auth Platform</a> and click <b>Get started</b>. App name: <b>Gmail Cleaner</b>, pick your email, choose <b>External</b>, finish.</li>
-      <li>In the left menu click <b>Audience</b>, under <b>Test users</b> click <b>Add users</b>, and add your own Gmail address.</li>
-      <li>In the left menu click <b>Clients</b> → <b>Create client</b>. Type: <b>Web application</b>. Under <b>Authorised JavaScript origins</b> click <b>Add URI</b> and paste:<br><code id="origin"></code> <button id="copyOrigin" class="small">Copy</button><br>
-      Then under <b>Authorised redirect URIs</b> click <b>Add URI</b> and paste:<br><code id="redirect"></code> <button id="copyRedirect" class="small">Copy</button><br>
-      <span class="muted small">On a phone: tap Copy here, switch back to the Google tab, and paste.</span><br>Click <b>Create</b>.</li>
-      <li>Copy the <b>Client ID</b> it shows (it ends in <code>.apps.googleusercontent.com</code>) and paste it here:</li>
-    </ol>
-    <div class="row">
-      <input id="clientId" type="text" placeholder="xxxxxxxx.apps.googleusercontent.com" style="flex:1;min-width:220px">
-      <button id="saveClient" class="primary">Save</button>
+    <div id="wizIntro">
+      <h2>One-time setup</h2>
+      <p>Google needs a free key so this page can ask for your Gmail. You only do this once, and the key stays in this browser. Nothing is sent anywhere except straight between you and Google.</p>
+      <p class="muted small">It takes a few minutes. Each screen has one step, a link to open, and a Copy button when you need to paste something.</p>
+      <button id="wizStart" class="primary" style="width:100%;margin-top:8px">Start setup</button>
+      <p style="text-align:center;margin:14px 0 0"><button id="haveKey" style="width:100%">I already have a key</button></p>
     </div>
-    <p class="muted small">When you sign in, Google will warn "Google hasn't verified this app". That's normal because it's your own private app. Click <b>Continue</b>.</p>
+
+    <div id="wizSteps" class="hidden">
+      <p class="wiz-progress" id="wizProgress">Step 1 of 6</p>
+      <div id="wizBody"></div>
+      <div id="keyBox" class="key-box key-sticky hidden">
+        <label for="clientId" class="small" style="font-weight:600;display:block;margin-bottom:6px">Paste your Client ID</label>
+        <div class="row">
+          <input id="clientId" type="text" placeholder="xxxxxxxx.apps.googleusercontent.com" autocomplete="off" spellcheck="false">
+          <button id="saveClient" class="primary">Save key</button>
+        </div>
+      </div>
+      <div class="wiz-nav">
+        <button id="wizBack">Back</button>
+        <button id="wizNext" class="primary">Next</button>
+      </div>
+    </div>
   </section>
 
   <section id="welcome" class="card hidden">
     <h2>Ready</h2>
     <p>Sign in with the Gmail account you want to clean. Nothing is sent anywhere except straight between this page and Google.</p>
     <button id="signin2" class="primary">Sign in with Google</button>
-    <p class="small"><a href="#" id="resetClient">Change setup key</a></p>
+    <p class="muted small" style="margin:12px 0 0">When Google warns that it hasn't verified this app, that's normal — it's your own private key. Click <b>Continue</b> (you may need to click <b>Advanced</b> first).</p>
+    <p class="small"><a href="#" id="resetClient">Change Google key</a></p>
   </section>
 
   <!-- APP -->
@@ -120,12 +156,17 @@
     <section class="card">
       <h2>Safety</h2>
       <label class="chk"><input type="checkbox" id="keepStarred" checked> Never touch starred or important emails</label>
-      <p class="muted small" style="margin:8px 0 0">Everything goes to <b>Trash</b>, not deleted forever. You can undo right after, and Gmail empties Trash on its own after 30 days.</p>
+      <p class="muted small" style="margin:8px 0 0">Everything goes to <b>Trash</b>, not deleted forever. You can undo right after, and Gmail keeps it in Trash for 30 days.</p>
     </section>
 
     <section class="card">
       <h2>Quick clean</h2>
+      <p class="muted small" style="margin:0 0 12px">Tap <b>See how many</b> first. We'll show the number, then ask before anything goes to Trash.</p>
       <div class="grid" id="quickGrid"></div>
+      <div class="more-wrap">
+        <button id="moreBtn" class="more-btn">More options (includes older mail)</button>
+        <div id="moreGrid" class="grid hidden" style="margin-top:12px"></div>
+      </div>
     </section>
 
     <section class="card">
@@ -142,8 +183,9 @@
       <div id="scanStatus" class="muted small" style="margin-top:8px"></div>
       <div class="progress hidden" id="scanProg"><div></div></div>
       <div id="senderWrap" class="hidden" style="margin-top:10px">
-        <div class="row" style="justify-content:space-between">
-          <input id="senderFilter" type="text" placeholder="Filter by name or address" style="flex:1;min-width:200px">
+        <p class="warn">If you trash a sender, <b>all</b> of their emails go to Trash — not only the ones in this list.</p>
+        <div class="row" style="justify-content:space-between;margin-top:10px">
+          <input id="senderFilter" type="text" placeholder="Filter by name or address" style="flex:1;min-width:0">
           <button id="selAll" class="small">Select all shown</button>
           <button id="selNone" class="small">Clear</button>
         </div>
@@ -157,11 +199,14 @@
 
     <section class="card">
       <h2>Custom search</h2>
-      <p class="muted small" style="margin-top:0">Same as the Gmail search bar. Examples: <code>from:amazon</code> <code>older_than:2y</code> <code>larger:10M</code> <code>has:attachment older_than:1y</code></p>
-      <div class="row">
-        <input id="customQ" type="text" placeholder="e.g. from:linkedin.com older_than:6m" style="flex:1;min-width:220px">
-        <button id="customCount">Count</button>
-        <button id="customTrash" class="danger">Trash matches</button>
+      <p class="muted small" style="margin-top:0">Tap a suggestion or type a Gmail search.</p>
+      <div class="chips" id="searchChips"></div>
+      <div class="row search-row">
+        <input id="customQ" type="text" placeholder="e.g. from:linkedin.com older_than:6m">
+        <div class="row search-actions">
+          <button id="customCount">Count</button>
+          <button id="customTrash" class="danger">Trash matches</button>
+        </div>
       </div>
       <div id="customStatus" class="muted small" style="margin-top:8px"></div>
     </section>
@@ -180,20 +225,29 @@
   </div>
 </div>
 
-<div id="toast"><span id="toastMsg"></span><button id="toastUndo" class="hidden">Undo</button></div>
+<div id="toast"><span class="toast-copy"><span id="toastMsg"></span><span id="toastSub" class="toast-sub hidden"></span></span><button id="toastUndo" class="hidden">Undo</button></div>
 
 <script>
 const SCOPE = 'https://www.googleapis.com/auth/gmail.modify';
 const API = 'https://gmail.googleapis.com/gmail/v1/users/me';
-const QUICK = [
+const QUICK_MAIN = [
   {name:'Promotions', q:'category:promotions', desc:'Sales, offers, marketing'},
   {name:'Social', q:'category:social', desc:'Facebook, Instagram, etc.'},
   {name:'Updates', q:'category:updates', desc:'Receipts, notifications, alerts'},
   {name:'Forums', q:'category:forums', desc:'Groups and mailing lists'},
   {name:'Newsletters', q:'unsubscribe -category:primary', desc:'Anything with an unsubscribe link'},
-  {name:'Older than 1 year', q:'older_than:1y', desc:'Everything over a year old'},
-  {name:'Unread, older than 1 month', q:'is:unread older_than:1m', desc:'Stuff you never opened'},
   {name:'Big emails (over 10 MB)', q:'larger:10M', desc:'Frees up storage fastest'},
+];
+const QUICK_MORE = [
+  {name:'Older than 1 year', q:'older_than:1y', desc:'Everything over a year old — this can be a lot'},
+  {name:'Unread, older than 1 month', q:'is:unread older_than:1m', desc:'Stuff you never opened'},
+];
+const SEARCH_CHIPS = [
+  {label:'From Amazon', q:'from:amazon'},
+  {label:'Older than 2 years', q:'older_than:2y'},
+  {label:'Bigger than 10 MB', q:'larger:10M'},
+  {label:'Attachments, over a year old', q:'has:attachment older_than:1y'},
+  {label:'Unread, older than 1 month', q:'is:unread older_than:1m'},
 ];
 
 const $ = id => document.getElementById(id);
@@ -203,16 +257,100 @@ const store = {
   del(k){ try{localStorage.removeItem(k)}catch(e){} },
 };
 let token = null;
-let senders = [];       // [{email,name,count}]
+let senders = [];
 let selected = new Set();
+let wizStep = 0; // 0 = intro, 1-6 = steps, 6 = paste key
 
-// ---------- setup / auth (redirect sign-in: works inside a home-screen app) ----------
 const REDIRECT = location.origin + location.pathname.replace(/index\.html$/,'');
+
 function show(id){ ['setup','welcome','app'].forEach(s=>$(s).classList.toggle('hidden', s!==id)); }
+
+const WIZ = [
+  {
+    title:'Create a Google project',
+    text:'This is a free folder in Google Cloud for your key. Name it <b>Gmail Cleaner</b>, then click <b>Create</b>.',
+    href:'https://console.cloud.google.com/projectcreate',
+    link:'Open project create'
+  },
+  {
+    title:'Turn on the Gmail API',
+    text:'Make sure <b>Gmail Cleaner</b> is selected at the top of the Google page, then click <b>Enable</b>.',
+    href:'https://console.cloud.google.com/apis/library/gmail.googleapis.com',
+    link:'Open the Gmail API page'
+  },
+  {
+    title:'Start the Auth Platform',
+    text:'Click <b>Get started</b>. App name: <b>Gmail Cleaner</b>. Pick your email, choose <b>External</b>, and finish.',
+    href:'https://console.cloud.google.com/auth/overview',
+    link:'Open Google Auth Platform'
+  },
+  {
+    title:'Add yourself as a test user',
+    text:'In the left menu click <b>Audience</b>. Under <b>Test users</b> click <b>Add users</b>, and add your own Gmail address. You can add a family member here later if they will use the same key.',
+    href:'https://console.cloud.google.com/auth/audience',
+    link:'Open Audience'
+  },
+  {
+    title:'Create a Web client and copy these addresses',
+    text:'In the left menu click <b>Clients</b> → <b>Create client</b>. Type: <b>Web application</b>. Then add the two addresses below (Copy, switch to the Google tab, and paste). Click <b>Create</b> when both are added.',
+    href:'https://console.cloud.google.com/auth/clients',
+    link:'Open Clients',
+    copies:true
+  },
+  {
+    title:'Paste your Client ID',
+    text:'Copy the Client ID Google just showed you. It ends in <code>.apps.googleusercontent.com</code>. Paste it below and tap <b>Save key</b>.',
+    href:null
+  }
+];
+
+function renderWiz(){
+  const intro = wizStep === 0;
+  $('wizIntro').classList.toggle('hidden', !intro);
+  $('wizSteps').classList.toggle('hidden', intro);
+  if(intro) return;
+  const i = wizStep - 1;
+  const step = WIZ[i];
+  $('wizProgress').textContent = 'Step ' + wizStep + ' of 6';
+  let html = '<h2>'+step.title+'</h2><p>'+step.text+'</p>';
+  if(step.href) html += '<a class="wiz-link" href="'+step.href+'" target="_blank" rel="noopener"><button class="primary" style="width:100%">'+step.link+'</button></a>';
+  if(step.copies){
+    html += '<p class="small" style="font-weight:600;margin:0 0 4px">Authorised JavaScript origins</p>'+
+      '<div class="uri-box" id="originBox"></div>'+
+      '<button type="button" class="copy-btn" id="copyOrigin">Copy this address</button>'+
+      '<p class="small" style="font-weight:600;margin:16px 0 4px">Authorised redirect URIs</p>'+
+      '<div class="uri-box" id="redirectBox"></div>'+
+      '<button type="button" class="copy-btn" id="copyRedirect">Copy this address</button>'+
+      '<p class="muted small">On a phone: tap Copy, switch back to the Google tab, and paste.</p>';
+  }
+  $('wizBody').innerHTML = html;
+  if(step.copies){
+    $('originBox').textContent = location.origin;
+    $('redirectBox').textContent = REDIRECT;
+    $('copyOrigin').onclick = ()=>copy(location.origin);
+    $('copyRedirect').onclick = ()=>copy(REDIRECT);
+  }
+  const last = wizStep === 6;
+  $('keyBox').classList.toggle('hidden', !last);
+  $('wizNext').classList.toggle('hidden', last);
+  $('wizBack').textContent = 'Back';
+}
+
+function goWiz(n){
+  wizStep = Math.max(0, Math.min(6, n));
+  renderWiz();
+}
+
+let wizFromHaveKey = false;
+$('wizStart').onclick = ()=>{ wizFromHaveKey = false; goWiz(1); };
+$('haveKey').onclick = ()=>{ wizFromHaveKey = true; goWiz(6); };
+$('wizBack').onclick = ()=>{
+  if(wizStep===6 && wizFromHaveKey) goWiz(0);
+  else goWiz(wizStep-1);
+};
+$('wizNext').onclick = ()=>{ wizFromHaveKey = false; goWiz(wizStep+1); };
+
 function init(){
-  $('origin').textContent = location.origin;
-  $('redirect').textContent = REDIRECT;
-  // coming back from Google?
   if(location.hash.includes('access_token=') || location.hash.includes('error=')){
     const h = new URLSearchParams(location.hash.slice(1));
     history.replaceState(null,'',REDIRECT);
@@ -224,7 +362,7 @@ function init(){
     }
     store.del('oauthState');
   }
-  if(!store.get('clientId')){ show('setup'); return; }
+  if(!store.get('clientId')){ wizStep = 0; show('setup'); renderWiz(); return; }
   const t = store.get('token'), exp = +store.get('tokenExp')||0;
   if(t && Date.now() < exp){ token = t; afterSignIn(); return; }
   show('welcome');
@@ -246,16 +384,24 @@ async function afterSignIn(){
   show('app');
   try{ const p = await api('/profile'); $('who').textContent = p.emailAddress + ' · ' + p.messagesTotal.toLocaleString() + ' emails'; }catch(e){}
   renderQuick();
+  renderChips();
 }
 $('saveClient').onclick = ()=>{
   const v = $('clientId').value.trim();
   if(!/\.apps\.googleusercontent\.com$/.test(v)){ toast('That doesn\'t look right. It should end in .apps.googleusercontent.com'); return; }
   store.set('clientId', v); init();
 };
-function copy(t){ navigator.clipboard && navigator.clipboard.writeText(t); toast('Copied'); }
-$('copyOrigin').onclick = ()=>copy(location.origin);
-$('copyRedirect').onclick = ()=>copy(REDIRECT);
-$('resetClient').onclick = e=>{ e.preventDefault(); store.del('clientId'); $('clientId').value=''; show('setup'); };
+async function copy(t){
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){ await navigator.clipboard.writeText(t); }
+    else {
+      const ta = document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); ta.remove();
+    }
+    toast('Copied');
+  }catch(e){ toast('Could not copy — select the address and copy it yourself'); }
+}
+$('resetClient').onclick = e=>{ e.preventDefault(); store.del('clientId'); $('clientId').value=''; wizStep=0; show('setup'); renderWiz(); };
 $('signin2').onclick = signIn;
 $('signout').onclick = ()=>{ if(token) fetch('https://oauth2.googleapis.com/revoke?token='+encodeURIComponent(token),{method:'POST'}).catch(()=>{}); signedOut(); };
 
@@ -273,7 +419,6 @@ function fullQuery(q){
   if($('keepStarred').checked) s += ' -is:starred -is:important';
   return s + ' -in:trash -in:spam';
 }
-// returns all message ids matching q (optionally capped)
 async function listIds(q, cap=Infinity, onProgress){
   let ids=[], pageToken='';
   do{
@@ -308,8 +453,8 @@ async function trashQuery(q, label){
   try{ toast('Counting…'); ids = await listIds(q); }catch(e){ toast(e.message); return null; }
   hideToast();
   if(!ids.length){ toast('Nothing to clean here 🎉'); return 0; }
-  const ok = await confirmTrash('Move '+ids.length.toLocaleString()+' emails to Trash?',
-    esc(label)+'<br><span class="muted small">You can undo this right after.</span>');
+  const ok = await confirmTrash('Trash '+ids.length.toLocaleString()+' emails?',
+    esc(label)+'<br><span class="muted small">They go to Trash, not gone forever. You can undo right after, and Gmail keeps them in Trash for 30 days.</span>');
   if(!ok) return null;
   return doTrash(ids);
 }
@@ -324,25 +469,62 @@ async function doTrash(ids){
     toast('Undoing…');
     try{ await batchLabel(ids, [], ['TRASH']); toast('Restored '+ids.length.toLocaleString()+' emails'); renderQuick(); }
     catch(e){ toast(e.message); }
-  });
+  }, 'They stay in Gmail Trash for 30 days if you miss Undo.');
   return ids.length;
 }
 
-// ---------- quick clean ----------
+// ---------- quick clean (count first, no auto-scan; risky tiles under More) ----------
+function renderQuickItem(item, host){
+  const d = document.createElement('div'); d.className='quick';
+  d.innerHTML = `<b>${item.name}</b><span class="muted small">${item.desc}</span>
+    <span class="count muted" data-state="idle">Tap to count</span>
+    <button>See how many</button>`;
+  const countEl = d.querySelector('.count'), btn = d.querySelector('button');
+  const setCount = (ids)=>{
+    const n = ids.length;
+    const cap = n>=10000;
+    countEl.textContent = cap ? '10,000+' : n.toLocaleString();
+    countEl.classList.toggle('muted', !n);
+    countEl.dataset.state = 'ready';
+    countEl.dataset.n = String(n);
+    btn.textContent = n ? ('Trash ' + (cap ? '10,000+' : n.toLocaleString()) + (n===1?' email':' emails')) : 'See how many';
+    btn.classList.toggle('danger', !!n);
+    btn.disabled = false;
+  };
+  btn.onclick = async ()=>{
+    if(countEl.dataset.state !== 'ready'){
+      btn.disabled = true; countEl.textContent = 'Counting…';
+      try{ setCount(await listIds(item.q, 10000)); }
+      catch(e){ countEl.textContent='Couldn’t count'; countEl.dataset.state='idle'; btn.disabled=false; toast(e.message); }
+      return;
+    }
+    const n = await trashQuery(item.q, item.name);
+    if(n===0){ setCount([]); }
+    else if(n){ btn.disabled=true; countEl.textContent='Counting…'; countEl.dataset.state='idle';
+      try{ setCount(await listIds(item.q, 10000)); }catch(e){ countEl.textContent='Tap to count'; countEl.dataset.state='idle'; btn.textContent='See how many'; btn.classList.remove('danger'); btn.disabled=false; }
+    }
+  };
+  host.appendChild(d);
+}
 function renderQuick(){
   const g = $('quickGrid'); g.innerHTML='';
-  QUICK.forEach(item=>{
-    const d = document.createElement('div'); d.className='quick';
-    d.innerHTML = `<b>${item.name}</b><span class="muted small">${item.desc}</span>
-      <span class="count muted">…</span>
-      <button class="danger">Move to Trash</button>`;
-    const countEl = d.querySelector('.count'), btn = d.querySelector('button');
-    const refresh = ()=> listIds(item.q, 10000).then(ids=>{
-        countEl.textContent = ids.length>=10000 ? '10,000+' : ids.length.toLocaleString();
-        countEl.classList.toggle('muted', !ids.length); btn.disabled = !ids.length;
-      }).catch(()=>{ countEl.textContent='?'; });
-    btn.onclick = async ()=>{ const n = await trashQuery(item.q, item.name); if(n) refresh(); };
-    g.appendChild(d); refresh();
+  QUICK_MAIN.forEach(item=>renderQuickItem(item, g));
+  const more = $('moreGrid'); more.innerHTML='';
+  QUICK_MORE.forEach(item=>renderQuickItem(item, more));
+}
+$('moreBtn').onclick = ()=>{
+  $('moreGrid').classList.toggle('hidden');
+  const hidden = $('moreGrid').classList.contains('hidden');
+  $('moreBtn').textContent = hidden ? 'More options (includes older mail)' : 'Hide extra options';
+};
+
+function renderChips(){
+  const box = $('searchChips'); box.innerHTML='';
+  SEARCH_CHIPS.forEach(c=>{
+    const b = document.createElement('button');
+    b.type='button'; b.className='chip-btn'; b.textContent=c.label; b.dataset.q=c.q;
+    b.onclick = ()=>{ $('customQ').value = c.q; $('customQ').focus(); };
+    box.appendChild(b);
   });
 }
 
@@ -374,7 +556,7 @@ $('scanBtn').onclick = async ()=>{
     await Promise.all(Array.from({length:8}, worker));
     senders = [...map.values()].sort((a,b)=>b.count-a.count);
     selected.clear();
-    $('scanStatus').textContent = 'Looked at '+total.toLocaleString()+' emails from '+senders.length.toLocaleString()+' senders. Tick the ones you want gone. It will trash ALL their mail, not just these.';
+    $('scanStatus').textContent = 'Looked at '+total.toLocaleString()+' emails from '+senders.length.toLocaleString()+' senders.';
     $('senderWrap').classList.remove('hidden'); renderSenders();
   }catch(e){ $('scanStatus').textContent = e.message; }
   $('scanBtn').disabled = false; $('scanProg').classList.add('hidden');
@@ -405,7 +587,6 @@ $('selAll').onclick = ()=>{ shownSenders().forEach(s=>selected.add(s.email)); re
 $('selNone').onclick = ()=>{ selected.clear(); renderSenders(); };
 $('trashSenders').onclick = async ()=>{
   const list = [...selected];
-  // Gmail queries get long; chunk senders into groups
   let ids = [];
   toast('Counting…');
   try{
@@ -418,13 +599,15 @@ $('trashSenders').onclick = async ()=>{
   ids = [...new Set(ids)];
   if(!ids.length){ toast('Nothing found'); return; }
   const names = list.slice(0,5).map(esc).join(', ') + (list.length>5?' and '+(list.length-5)+' more':'');
-  const ok = await confirmTrash('Move '+ids.length.toLocaleString()+' emails to Trash?', 'All mail from '+names+'.<br><span class="muted small">You can undo this right after.</span>');
+  const ok = await confirmTrash('Trash '+ids.length.toLocaleString()+' emails?',
+    'All mail from '+names+'.<br><span class="warn" style="display:block">This is their entire inbox history, not only the emails in the list above.</span><br><span class="muted small">They go to Trash. You can undo right after, and Gmail keeps them for 30 days.</span>');
   if(!ok) return;
   const n = await doTrash(ids);
   if(n){ senders = senders.filter(s=>!selected.has(s.email)); selected.clear(); renderSenders(); renderQuick(); }
 };
 
 // ---------- custom ----------
+function renderChipsOnLoad(){ /* chips also needed if someone inspects hidden app */ }
 $('customCount').onclick = async ()=>{
   const q = $('customQ').value.trim(); if(!q) return;
   $('customStatus').textContent='Counting…';
@@ -432,7 +615,7 @@ $('customCount').onclick = async ()=>{
   catch(e){ $('customStatus').textContent=e.message; }
 };
 $('customTrash').onclick = async ()=>{
-  const q = $('customQ').value.trim(); if(!q){ toast('Type a search first'); return; }
+  const q = $('customQ').value.trim(); if(!q){ toast('Type a search first, or tap a suggestion'); return; }
   const n = await trashQuery(q, 'Search: '+q);
   if(n){ $('customStatus').textContent='Done.'; renderQuick(); }
 };
@@ -441,16 +624,22 @@ $('customTrash').onclick = async ()=>{
 function setProg(id,f){ $(id).firstElementChild.style.width = Math.round(Math.min(1,f)*100)+'%'; }
 function esc(s){ return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 let toastTimer;
-function toast(msg, undo){
+function toast(msg, undo, sub){
   clearTimeout(toastTimer);
-  $('toastMsg').textContent = msg; $('toast').style.display='flex';
+  $('toastMsg').textContent = msg;
+  const subEl = $('toastSub');
+  if(sub){ subEl.textContent = sub; subEl.classList.remove('hidden'); }
+  else { subEl.textContent=''; subEl.classList.add('hidden'); }
+  $('toast').style.display='flex';
   $('toastUndo').classList.toggle('hidden', !undo);
   $('toastUndo').onclick = ()=>{ $('toastUndo').classList.add('hidden'); undo(); };
-  toastTimer = setTimeout(hideToast, undo ? 15000 : 4000);
+  toastTimer = setTimeout(hideToast, undo ? 40000 : 4000);
 }
 function hideToast(){ $('toast').style.display='none'; }
 
 if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+renderChips();
+renderQuick();
 init();
 </script>
 </body>
