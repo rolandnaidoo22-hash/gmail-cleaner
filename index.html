@@ -350,6 +350,8 @@ $('wizBack').onclick = ()=>{
 };
 $('wizNext').onclick = ()=>{ wizFromHaveKey = false; goWiz(wizStep+1); };
 
+const BUILTIN_CID='1093582550743-3nbuhti049a0f0fnmke2th0vaducc9mh.apps.googleusercontent.com';
+const getCID=()=>store.get('clientId')||BUILTIN_CID;
 function init(){
   if(location.hash.includes('access_token=') || location.hash.includes('error=')){
     const h = new URLSearchParams(location.hash.slice(1));
@@ -362,7 +364,7 @@ function init(){
     }
     store.del('oauthState');
   }
-  if(!store.get('clientId')){ wizStep = 0; show('setup'); renderWiz(); return; }
+  if(!getCID()){ wizStep = 0; show('setup'); renderWiz(); return; }
   const t = store.get('token'), exp = +store.get('tokenExp')||0;
   if(t && Date.now() < exp){ token = t; afterSignIn(); return; }
   show('welcome');
@@ -370,7 +372,7 @@ function init(){
 function signIn(){
   const state = Math.random().toString(36).slice(2)+Date.now().toString(36);
   store.set('oauthState', state);
-  const p = new URLSearchParams({client_id:store.get('clientId'), redirect_uri:REDIRECT, response_type:'token',
+  const p = new URLSearchParams({client_id:getCID(), redirect_uri:REDIRECT, response_type:'token',
     scope:SCOPE, include_granted_scopes:'true', state, prompt:'select_account'});
   location.href = 'https://accounts.google.com/o/oauth2/v2/auth?'+p;
 }

@@ -1,6 +1,6 @@
 // Keeps the app's screens on the phone so it opens instantly, even offline.
 // Gmail data itself is never stored here.
-const CACHE = 'gmail-cleaner-v2';
+const CACHE = 'gmail-cleaner-v3';
 const SHELL = ['./', 'index.html', 'manifest.json', 'icon-192.png', 'icon-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
